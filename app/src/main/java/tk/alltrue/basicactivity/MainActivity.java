@@ -1,5 +1,6 @@
 package tk.alltrue.basicactivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,8 +29,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSnackbar = Snackbar.make(view, "Ohyeah", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null);
+                mSnackbar = Snackbar.make(view, "Do you like it?", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Yes", snackbarOnClickListener);
+                View snackbarView = mSnackbar.getView();
+                snackbarView.setBackgroundColor(Color.BLUE);
+                TextView snackTextView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                snackTextView.setTextColor(Color.RED);
                 mSnackbar.show();
 
                 mSnackbar.addCallback(new Snackbar.Callback() {
@@ -52,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         Button dismissButton = (Button) findViewById(R.id.dismissButton);
         dismissButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,9 +69,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
+    View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(getApplicationContext(), "Cool!", Toast.LENGTH_LONG).show();
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
