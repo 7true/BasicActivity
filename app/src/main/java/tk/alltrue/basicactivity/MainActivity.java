@@ -5,11 +5,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Snackbar mSnackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +26,41 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                mSnackbar = Snackbar.make(view, "Ohyeah", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null);
+                mSnackbar.show();
+
+                mSnackbar.addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                            Log.i("SnackBar", "Закрыт по тайм-ауту");
+                        }
+                        if (event == Snackbar.Callback.DISMISS_EVENT_SWIPE) {
+                            Log.i("SnackBar", "Swipe");
+                        }
+                        if (event == Snackbar.Callback.DISMISS_EVENT_MANUAL) {
+                            Log.i("SnackBar", "Button");
+                        }
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+                        Log.i("SnackBar", "onShown");
+                    }
+                });
             }
         });
+
+        Button dismissButton = (Button) findViewById(R.id.dismissButton);
+        dismissButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSnackbar.dismiss();
+            }
+        });
+
+
     }
 
     @Override
